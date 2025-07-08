@@ -6,6 +6,7 @@ import com.soarclient.event.server.PacketHandler;
 import com.soarclient.libraries.browser.JCefBrowser;
 import com.soarclient.management.color.ColorManager;
 import com.soarclient.management.config.ConfigManager;
+import com.soarclient.management.config.ServiceOverrides;
 import com.soarclient.management.hypixel.HypixelManager;
 import com.soarclient.management.mod.ModManager;
 import com.soarclient.management.music.MusicManager;
@@ -16,10 +17,16 @@ import com.soarclient.skia.font.Fonts;
 import com.soarclient.utils.file.FileLocation;
 import com.soarclient.utils.language.I18n;
 import com.soarclient.utils.language.Language;
+import lombok.Getter;
+import org.jetbrains.annotations.NotNull;
 
+import java.net.URI;
+
+@Getter
 public class Soar {
 
-	private final static Soar instance = new Soar();
+	@Getter
+    private final static Soar instance = new Soar();
 
 	private final String name = "Soar";
 	private final String version = "8.0";
@@ -36,6 +43,8 @@ public class Soar {
 	private HypixelManager hypixelManager;
 
 	public void start() {
+		ServiceOverrides serviceOverrides = this.parseServiceOverrides();
+		URI rpcAddress = serviceOverrides.getRpcAddress();
 
 		JCefBrowser.download();
 		Fonts.loadAll();
@@ -50,7 +59,7 @@ public class Soar {
 		musicManager = new MusicManager();
 		configManager = new ConfigManager();
 		profileManager = new ProfileManager();
-		webSocketManager = new WebSocketManager();
+		webSocketManager = new WebSocketManager(rpcAddress);
 		userManager = new UserManager();
 		hypixelManager = new HypixelManager();
 
@@ -59,51 +68,11 @@ public class Soar {
 		EventBus.getInstance().register(new Delta());
 	}
 
-	public static Soar getInstance() {
-		return instance;
-	}
+	private @NotNull ServiceOverrides parseServiceOverrides() {
+		ServiceOverrides serviceOverrides = new ServiceOverrides();
 
-	public String getName() {
-		return name;
-	}
-
-	public String getVersion() {
-		return version;
-	}
-
-	public long getLaunchTime() {
-		return launchTime;
-	}
-
-	public ModManager getModManager() {
-		return modManager;
-	}
-
-	public ColorManager getColorManager() {
-		return colorManager;
-	}
-
-	public MusicManager getMusicManager() {
-		return musicManager;
-	}
-
-	public ConfigManager getConfigManager() {
-		return configManager;
-	}
-
-	public ProfileManager getProfileManager() {
-		return profileManager;
-	}
-
-	public WebSocketManager getWebSocketManager() {
-		return webSocketManager;
-	}
-
-	public UserManager getUserManager() {
-		return userManager;
-	}
-
-	public HypixelManager getHypixelManager() {
-		return hypixelManager;
+		// parse service override from properties
+		serviceOverrides.setRpcAddress(URI.create(System.getProperty("serviceOverrideRpc", "wss://soar.lunarclient.top/rpc")));
+		return serviceOverrides;
 	}
 }

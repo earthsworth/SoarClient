@@ -1,7 +1,6 @@
 package com.soarclient.management.websocket.client;
 
 import java.net.URI;
-import java.net.URISyntaxException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -22,8 +21,8 @@ public class SoarWebSocketClient extends WebSocketClient {
 	private final Gson gson = new Gson();
 	private final Runnable closeTask;
 
-	public SoarWebSocketClient(Map<String, String> headers, Runnable closeTask) throws URISyntaxException {
-		super(new URI("ws://localhost:8080/websocket"), headers);
+	public SoarWebSocketClient(URI address, Map<String, String> headers, Runnable closeTask) {
+		super(address, headers);
 		this.closeTask = closeTask;
 		initializeHandlers();
 	}
