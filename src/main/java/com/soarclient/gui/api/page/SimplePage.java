@@ -4,10 +4,11 @@ import com.soarclient.animation.Animation;
 import com.soarclient.animation.other.DummyAnimation;
 import com.soarclient.gui.api.SoarGui;
 
-public class SimplePage {
+public abstract class SimplePage {
 
 	protected float x, y, width, height;
-	private String title, icon;
+	private final String title;
+    private final String icon;
 	protected SoarGui parent;
 	private Animation animation;
 	private GuiTransition transition;

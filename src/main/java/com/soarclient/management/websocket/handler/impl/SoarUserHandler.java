@@ -8,16 +8,16 @@ import com.soarclient.utils.JsonUtils;
 
 public class SoarUserHandler extends WebSocketHandler {
 
-	@Override
-	public void handle(JsonObject jsonObject) {
-		
-		UserManager userManager = Soar.getInstance().getUserManager();
-		
-		String uuid = JsonUtils.getStringProperty(jsonObject, "uuid", "null");
-		boolean isUser = JsonUtils.getBooleanProperty(jsonObject, "soarUser", false);
-		
-		if(!uuid.equals("null")) {
-			userManager.add(uuid, isUser);
-		}
-	}
+    @Override
+    public void handle(JsonObject jsonObject) {
+
+        UserManager userManager = Soar.getInstance().getUserManager();
+
+        String uuid = JsonUtils.getStringProperty(jsonObject, "uuid", "null");
+        boolean isUser = JsonUtils.getBooleanProperty(jsonObject, "soarUser", false);
+
+        if (!uuid.equals("null")) {
+            userManager.add(uuid, isUser);
+        }
+    }
 }

@@ -24,7 +24,7 @@ import com.soarclient.utils.mouse.MouseUtils;
 
 public class ModsPage extends Page {
 
-	private List<Item> items = new ArrayList<>();
+	private final List<Item> items = new ArrayList<>();
 
 	public ModsPage(SoarGui parent) {
 		super(parent, "text.mods", Icon.INVENTORY_2, new RightLeftTransition(true));
@@ -36,11 +36,11 @@ public class ModsPage extends Page {
 
 		items.clear();
 		
-		for (Mod m : Soar.getInstance().getModManager().getMods()) {
+		for (Mod module : Soar.getInstance().getModManager().getMods()) {
 
-			Item i = new Item(m);
+			Item i = new Item(module);
 
-			if (m.isEnabled()) {
+			if (module.isEnabled()) {
 				i.pressAnimation.setPressed();
 			}
 
@@ -106,9 +106,9 @@ public class ModsPage extends Page {
 			i.pressAnimation.draw(itemX, itemY + 116, 224, 35, palette.getPrimaryContainer(), 1);
 			Skia.restore();
 
-			Skia.drawFullCenteredText(I18n.get(m.getName()), itemX + (244 / 2), itemY + 116 + (35 / 2),
+			Skia.drawFullCenteredText(I18n.get(m.getName()), itemX + ((float) 244 / 2), itemY + 116 + ((float) 35 / 2),
 					palette.getOnSurfaceVariant(), Fonts.getRegular(16));
-			Skia.drawFullCenteredText(m.getIcon(), itemX + (244 / 2), itemY + (116 / 2), palette.getOnSurfaceVariant(),
+			Skia.drawFullCenteredText(m.getIcon(), itemX + ((float) 244 / 2), itemY + ((float) 116 / 2), palette.getOnSurfaceVariant(),
 					Fonts.getIcon(68));
 
 			index++;
@@ -199,13 +199,13 @@ public class ModsPage extends Page {
 		this.setTransition(new RightLeftTransition(true));
 	}
 
-	private class Item {
+	private static class Item {
 
-		private Mod mod;
-		private SimpleAnimation focusAnimation = new SimpleAnimation();
-		private SimpleAnimation xAnimation = new SimpleAnimation();
-		private SimpleAnimation yAnimation = new SimpleAnimation();
-		private PressAnimation pressAnimation = new PressAnimation();
+		private final Mod mod;
+		private final SimpleAnimation focusAnimation = new SimpleAnimation();
+		private final SimpleAnimation xAnimation = new SimpleAnimation();
+		private final SimpleAnimation yAnimation = new SimpleAnimation();
+		private final PressAnimation pressAnimation = new PressAnimation();
 		private boolean pressed;
 
 		private Item(Mod mod) {
