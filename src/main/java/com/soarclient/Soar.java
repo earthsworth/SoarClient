@@ -72,7 +72,7 @@ public class Soar {
 		ServiceOverrides serviceOverrides = new ServiceOverrides();
 
 		// parse service override from properties
-		serviceOverrides.setRpcAddress(URI.create(System.getProperty("serviceOverrideRpc", "wss://soar.lunarclient.top/rpc")));
+		serviceOverrides.setRpcAddress(URI.create(System.getProperty("serviceOverrideRpc", "wss://api.lunarclient.top/ws/soar")));
 		return serviceOverrides;
 	}
 }
